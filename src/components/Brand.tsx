@@ -70,6 +70,48 @@ export function Paperclip({ className = "" }: { className?: string }) {
   );
 }
 
+/** Selo circular com texto girando ao redor + estrela no centro. */
+export function CircularSeal({
+  text = "NOVIDADES · PRATA 950 · OURO 18K · ",
+  size = 132,
+  className = "",
+}: {
+  text?: string;
+  size?: number;
+  className?: string;
+}) {
+  const repeated = text.repeat(2);
+  return (
+    <div
+      className={`relative inline-grid place-items-center text-blue ${className}`}
+      style={{ width: size, height: size }}
+    >
+      <svg viewBox="0 0 100 100" className="seal-spin h-full w-full">
+        <defs>
+          <path
+            id="sealPath"
+            d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"
+            fill="none"
+          />
+        </defs>
+        <text
+          fill="currentColor"
+          style={{
+            fontFamily: "var(--font-body), sans-serif",
+            fontSize: "7px",
+            letterSpacing: "2.4px",
+          }}
+        >
+          <textPath href="#sealPath" startOffset="0">
+            {repeated}
+          </textPath>
+        </text>
+      </svg>
+      <Sparkle size={Math.round(size * 0.16)} className="absolute" />
+    </div>
+  );
+}
+
 /**
  * Wordmark gigante em baixo-relevo no fundo (letterpress), como na ref SHADAN.
  * Decorativo — fica atrás do conteúdo.

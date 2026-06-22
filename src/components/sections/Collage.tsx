@@ -1,95 +1,138 @@
+"use client";
+
+import { PRODUCTS, type Product } from "@/lib/content";
+import { waProductLink, formatBRL } from "@/lib/config";
+import { trackWhatsApp } from "@/lib/analytics";
 import { Section, SectionHead } from "../Section";
 import { Frame } from "../Frame";
-import { WhatsAppButton } from "../WhatsAppButton";
 import { Reveal } from "../Reveal";
-import { Tape, Paperclip, Sparkle } from "../Brand";
+import { Hallmark } from "../Hallmark";
+import { EmbossWord, CircularSeal, Sparkle } from "../Brand";
+import { WhatsAppIcon, ArrowIcon } from "../icons";
 
-/**
- * COLLAGE / ATELIÊ — momento de colagem editorial (ref. SHADAN board).
- * Fotos sobrepostas, rotacionadas, com fita, clipe e bilhete à mão.
- * Board com posições em % dentro de um container de altura responsiva.
- * Fotos: troque os `src` (hoje placeholders no tom da marca).
- */
+/** seleção de "novidades" (ids escolhidos a dedo da lista de produtos) */
+const find = (id: string) => PRODUCTS.find((p) => p.id === id)!;
+const FEATURED = find("p8");
+const SIDE = [find("p1"), find("p4"), find("p9")];
+
+/** NOVIDADES — vitrine com peça em destaque + lista, preços e selo (escuro). */
 export function Collage() {
   return (
-    <Section id="atelie">
-      <SectionHead
-        eyebrow="COLEÇÃO · NOVIDADES"
-        title="Peças que acabaram de chegar"
-        sub="Prata 950 e ouro 18k. Pronta entrega ou sob encomenda."
-      />
+    <Section id="atelie" className="relative overflow-hidden">
+      <EmbossWord className="pointer-events-none absolute left-1/2 top-[56%] -translate-x-1/2 -translate-y-1/2 text-[30vw] leading-none">
+        NOVO
+      </EmbossWord>
 
-      <Reveal>
-        <div className="relative mx-auto h-[560px] w-full max-w-4xl sm:h-[640px] lg:h-[720px]">
-          {/* foto principal */}
-          <figure className="absolute left-[2%] top-[4%] w-[46%] rotate-[-3deg] sm:w-[42%]">
-            <div className="card-lift overflow-hidden rounded-[var(--radius)]">
-              <Frame
-                src="/colecao/01.jpg"
-                alt="Peça em destaque da coleção JM Prata"
-                ratio="aspect-[3/4]"
-                sizes="(max-width: 640px) 46vw, 360px"
-              />
-            </div>
-            <figcaption className="eyebrow mt-2 text-cream-dim">
-              PRONTA ENTREGA
-            </figcaption>
-          </figure>
+      <div className="relative z-10">
+        <SectionHead
+          eyebrow="COLEÇÃO · NOVIDADES"
+          title="Peças que acabaram de chegar"
+          sub="Prata 950 e ouro 18k. Pronta entrega ou sob encomenda."
+        />
 
-          {/* foto topo direita com fita */}
-          <figure className="absolute right-[3%] top-0 w-[40%] rotate-[4deg] sm:w-[34%]">
-            <Tape rotate={-6} className="left-1/2 top-[-12px] z-20 -translate-x-1/2" />
-            <div className="card-lift overflow-hidden rounded-[var(--radius)]">
-              <Frame
-                src="/colecao/02.jpg"
-                alt="Peça finalizada em prata 950"
-                ratio="aspect-square"
-                sizes="(max-width: 640px) 40vw, 300px"
-              />
-            </div>
-            <figcaption className="eyebrow mt-2 text-right text-cream-dim">
-              PRATA 950
-            </figcaption>
-          </figure>
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+          {/* destaque */}
+          <Reveal>
+            <FeaturedCard product={FEATURED} />
+          </Reveal>
 
-          {/* foto inferior direita */}
-          <figure className="absolute bottom-[2%] right-[8%] w-[34%] rotate-[-2deg] sm:w-[28%]">
-            <div className="card-lift overflow-hidden rounded-[var(--radius)]">
-              <Frame
-                src="/colecao/03.jpg"
-                alt="Detalhe de anel em ouro 18k"
-                ratio="aspect-[4/5]"
-                sizes="(max-width: 640px) 34vw, 240px"
-              />
-            </div>
-          </figure>
-
-          {/* bilhete à mão (papel) com clipe */}
-          <div className="paper absolute bottom-[6%] left-[6%] w-[44%] rotate-[2deg] rounded-[2px] p-5 sm:w-[36%]">
-            <Paperclip className="absolute -top-4 left-6 h-10 w-5 text-olive/70" />
-            <p className="handwriting text-2xl text-[#3a2a22] sm:text-3xl">
-              Pra presentear
-              <br />
-              (ou se presentear).
-            </p>
-            <p className="handwriting mt-3 text-xl text-[#6f5a4a]">— JM Prata</p>
+          {/* lista */}
+          <div className="relative space-y-4">
+            <CircularSeal
+              size={120}
+              className="absolute -left-16 -top-14 z-30 hidden drop-shadow-[0_8px_20px_rgba(0,0,0,0.55)] lg:block"
+            />
+            {SIDE.map((p, i) => (
+              <Reveal key={p.id} delay={i * 90}>
+                <MiniCard product={p} />
+              </Reveal>
+            ))}
+            <Reveal delay={SIDE.length * 90}>
+              <a
+                href="#colecao"
+                className="eyebrow inline-flex items-center gap-1.5 pt-1 text-blue transition-colors hover:text-cream"
+              >
+                Ver toda a coleção
+                <ArrowIcon className="h-3.5 w-3.5" />
+              </a>
+            </Reveal>
           </div>
-
-          {/* etiqueta de teor (papel pequeno) */}
-          <div className="paper absolute right-[2%] top-[44%] w-[22%] rotate-[6deg] rounded-[2px] px-3 py-2 sm:w-[16%]">
-            <p className="eyebrow text-[#3a2a22]">TEOR</p>
-            <p className="font-display text-lg text-[#3a2a22]">950 · 18K</p>
-          </div>
-
-          {/* acentos */}
-          <Sparkle size={20} className="absolute left-[48%] top-[10%] text-blue/70" />
-          <Sparkle size={12} className="absolute bottom-[24%] left-[40%] text-blue/50" />
         </div>
-      </Reveal>
-
-      <Reveal className="mt-16 text-center">
-        <WhatsAppButton source="colecao">Quero ver as novidades</WhatsAppButton>
-      </Reveal>
+      </div>
     </Section>
+  );
+}
+
+function NewBadge() {
+  return (
+    <span className="eyebrow absolute left-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-blue px-2.5 py-1 text-base">
+      <Sparkle size={9} className="text-base" /> Novo
+    </span>
+  );
+}
+
+function FeaturedCard({ product }: { product: Product }) {
+  const priceLabel = formatBRL(product.price);
+  return (
+    <a
+      href={waProductLink(product.name, priceLabel)}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => trackWhatsApp("produto")}
+      className="card-lift group relative block overflow-hidden rounded-[var(--radius)] border border-olive/20 bg-mocha"
+    >
+      <div className="relative">
+        <NewBadge />
+        <Frame
+          src={product.src}
+          alt={product.name}
+          eyebrow={product.material}
+          ratio="aspect-[4/5]"
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
+      </div>
+      <div className="flex items-end justify-between gap-4 p-5">
+        <div>
+          <h3 className="font-display text-2xl leading-tight text-cream">
+            {product.name}
+          </h3>
+          <p className="mt-1 font-display text-xl text-cream">{priceLabel}</p>
+        </div>
+        <span className="inline-flex items-center gap-2 rounded-[var(--radius)] bg-blue px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-base transition-transform group-hover:scale-[1.03]">
+          <WhatsAppIcon className="h-4 w-4" />
+          Comprar
+        </span>
+      </div>
+    </a>
+  );
+}
+
+function MiniCard({ product }: { product: Product }) {
+  const priceLabel = formatBRL(product.price);
+  return (
+    <a
+      href={waProductLink(product.name, priceLabel)}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => trackWhatsApp("produto")}
+      className="card-lift group flex items-center gap-4 rounded-[var(--radius)] border border-olive/20 bg-mocha p-3 transition-colors hover:border-blue/40"
+    >
+      <div className="w-24 shrink-0 sm:w-28">
+        <Frame
+          src={product.src}
+          alt={product.name}
+          ratio="aspect-square"
+          sizes="120px"
+        />
+      </div>
+      <div className="min-w-0 flex-1">
+        <Hallmark className="text-cream-dim/80">{product.material}</Hallmark>
+        <h3 className="font-display mt-0.5 truncate text-lg text-cream">
+          {product.name}
+        </h3>
+        <p className="font-display text-lg text-cream">{priceLabel}</p>
+      </div>
+      <ArrowIcon className="h-4 w-4 shrink-0 text-blue transition-transform group-hover:translate-x-1" />
+    </a>
   );
 }

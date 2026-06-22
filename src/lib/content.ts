@@ -88,6 +88,9 @@ export type Service = {
   hallmark: string;
   title: string;
   desc: string;
+  items: string[];
+  icon: string;
+  src: string | null; // foto do serviço (ex.: "/servicos/encomenda.jpg")
   cta: string;
   waSource: WaSource;
   anchor: string;
@@ -99,6 +102,13 @@ export const SERVICES: Service[] = [
     hallmark: "SOB MEDIDA",
     title: "Encomendas",
     desc: "Não achou o que queria? Faço sua peça personalizada em prata 950 ou ouro 18k, do seu jeito.",
+    items: [
+      "Anéis, cordões e pingentes personalizados",
+      "Trabalho com o seu próprio material",
+      "Orçamento na hora, sem compromisso",
+    ],
+    icon: "ruler",
+    src: "/servicos/encomenda.jpg",
     cta: "Encomendar peça",
     waSource: "encomenda",
     anchor: "#contato",
@@ -108,6 +118,13 @@ export const SERVICES: Service[] = [
     hallmark: "SOLDA · CONSERTO",
     title: "Consertos",
     desc: "Quebrou ou soltou o fecho? Solda e conserto em prata, ouro e Romanel — até o que outras lojas não fazem.",
+    items: [
+      "Solda e troca de fecho",
+      "Ajuste de tamanho de anel",
+      "Limpeza, polimento e banho",
+    ],
+    icon: "recycle",
+    src: "/servicos/conserto.jpg",
     cta: "Mandar pra consertar",
     waSource: "conserto",
     anchor: "#contato",
@@ -117,6 +134,13 @@ export const SERVICES: Service[] = [
     hallmark: "PAR · SOB MEDIDA",
     title: "Alianças",
     desc: "Alianças de namoro, noivado e casamento — gravadas e ajustadas sob medida.",
+    items: [
+      "Namoro, noivado e casamento",
+      "Gravação de nomes e datas",
+      "Ajuste de medida do par",
+    ],
+    icon: "gem",
+    src: "/servicos/aliancas.jpg",
     cta: "Ver alianças",
     waSource: "aliancas",
     anchor: "#contato",
