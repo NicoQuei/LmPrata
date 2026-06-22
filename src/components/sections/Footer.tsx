@@ -1,6 +1,6 @@
 "use client";
 
-import { BUSINESS, SITE, WHATSAPP_IS_PLACEHOLDER, waLink } from "@/lib/config";
+import { BUSINESS, SITE, waLink } from "@/lib/config";
 import { InstagramIcon, WhatsAppIcon, TrustIcon } from "../icons";
 import { trackWhatsApp } from "@/lib/analytics";
 import { EmbossWord, Sparkle } from "../Brand";
@@ -142,14 +142,6 @@ export function Footer() {
             </a>
           </p>
         </div>
-
-        {WHATSAPP_IS_PLACEHOLDER && (
-          <p className="mx-auto mt-5 max-w-6xl rounded border border-blue/40 bg-blue/10 px-4 py-2 text-center text-xs text-blue">
-            ⚠️ Dev: número de WhatsApp ainda é placeholder. Edite{" "}
-            <code className="font-display">src/lib/config.ts</code>{" "}
-            (WHATSAPP_NUMBER).
-          </p>
-        )}
       </div>
     </footer>
   );
