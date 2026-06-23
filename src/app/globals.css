@@ -1,21 +1,23 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   JM PRATA — Sistema visual editorial / alta-costura (ref. SHADAN)
-   Bodoni Moda (display dramática) + Jost (corpo limpo).
-   Paleta dessaturada: mocha profundo, azul empoeirado, creme amêndoa.
-   Riqueza por camadas: grão, relevo, colagem.
+   JM PRATA — Sistema visual (TEMA CLARO)
+   Os nomes dos tokens vêm do tema escuro, mas os VALORES estão invertidos:
+   - base  = fundo claro da página
+   - cream = texto escuro / fundo de botão escuro
+   - mocha = superfície de card (branco quente)
+   - olive = hairlines · blue = acento · cream-dim = texto secundário
    ========================================================================== */
 
 :root {
-  --base: #181310;
-  --mocha: #2c201a;
-  --mocha-2: #3a2a22;
-  --cream: #ece3d2;
-  --cream-dim: #b9ad99;
-  --blue: #9fb2ce;
-  --blue-deep: #6f86a8;
-  --olive: #8c8475;
+  --base: #f3f1ea; /* fundo claro e limpo (off-white) */
+  --mocha: #ffffff; /* cards / superfícies (branco) */
+  --mocha-2: #efece4; /* hover / superfície alternada */
+  --cream: #1a1714; /* texto principal (quase-preto) / botões escuros */
+  --cream-dim: #6e685e; /* texto secundário */
+  --blue: #45618d; /* acento AZUL (mantido) */
+  --blue-deep: #33507a;
+  --olive: #c2b9a7; /* hairlines / bordas */
 }
 
 @theme inline {
@@ -48,8 +50,8 @@ body {
   color: var(--cream);
   font-family: var(--font-body), system-ui, sans-serif;
   font-size: 1rem;
-  line-height: 1.75;
-  font-weight: 300;
+  line-height: 1.7;
+  font-weight: 400;
   letter-spacing: 0.01em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -87,14 +89,16 @@ summary:focus-visible,
   letter-spacing: -0.02em;
 }
 
-.eyebrow {
-  font-family: var(--font-body), system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.32em;
-  font-size: 0.68rem;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--cream-dim);
+@layer components {
+  .eyebrow {
+    font-family: var(--font-body), system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 0.68rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--cream-dim);
+  }
 }
 
 .prose-editorial p {
@@ -116,32 +120,30 @@ summary:focus-visible,
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* relevo / letterpress p/ wordmark gigante no fundo */
+/* relevo / letterpress p/ wordmark gigante no fundo (tema claro) */
 .emboss {
   color: transparent;
   -webkit-text-fill-color: transparent;
   text-shadow:
-    0 1px 0 color-mix(in srgb, var(--cream) 7%, transparent),
-    0 -1px 1px color-mix(in srgb, #000 60%, transparent);
+    0 1px 0 color-mix(in srgb, #fff 75%, transparent),
+    0 -1px 1px color-mix(in srgb, var(--cream) 14%, transparent);
 }
 
-/* relevo claro p/ texto sobre superfície mocha (debossed) */
+/* relevo p/ números sobre superfície clara (debossed) */
 .deboss {
-  color: color-mix(in srgb, var(--cream) 10%, var(--mocha));
+  color: color-mix(in srgb, var(--cream) 9%, var(--mocha));
   text-shadow:
-    0 1px 0 color-mix(in srgb, var(--cream) 6%, transparent),
-    0 -1px 1px color-mix(in srgb, #000 45%, transparent);
+    0 1px 0 color-mix(in srgb, #fff 60%, transparent),
+    0 -1px 1px color-mix(in srgb, var(--cream) 10%, transparent);
 }
 
-/* superfície "papel" creme p/ elementos de colagem */
+/* superfície "papel" kraft p/ elementos de colagem */
 .paper {
   background-color: #e7ddca;
-  color: var(--base);
-  background-image:
-    linear-gradient(color-mix(in srgb, #000 3%, transparent) 0 0);
+  color: var(--cream);
   box-shadow:
-    0 18px 40px -18px rgba(0, 0, 0, 0.65),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+    0 16px 36px -20px rgba(34, 29, 23, 0.28),
+    inset 0 0 0 1px rgba(34, 29, 23, 0.05);
 }
 
 /* "fita adesiva" p/ colagem */
@@ -149,21 +151,23 @@ summary:focus-visible,
   position: absolute;
   width: 92px;
   height: 26px;
-  background: color-mix(in srgb, var(--cream) 55%, transparent);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  opacity: 0.55;
+  background: color-mix(in srgb, #fff 65%, transparent);
+  box-shadow: 0 2px 6px rgba(34, 29, 23, 0.18);
+  opacity: 0.7;
 }
 
-/* card elevado com sombra rica */
+/* card elevado com sombra sutil (tema claro) */
 .card-lift {
   box-shadow:
-    0 30px 60px -30px rgba(0, 0, 0, 0.75),
-    inset 0 0 0 1px color-mix(in srgb, var(--olive) 18%, transparent);
+    0 22px 45px -28px rgba(34, 29, 23, 0.22),
+    inset 0 0 0 1px color-mix(in srgb, var(--olive) 22%, transparent);
 }
 
-.sparkle {
-  display: inline-block;
-  color: var(--blue);
+@layer components {
+  .sparkle {
+    display: inline-block;
+    color: var(--blue);
+  }
 }
 
 .handwriting {
